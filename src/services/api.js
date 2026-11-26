@@ -1,22 +1,38 @@
 import axios from "axios";
 
+// =========================================
+// API BASE URL
+// =========================================
+
+// Local development:
+// http://localhost:8080/api
+//
+// Production:
+// https://hospital-backend-ltj2.onrender.com/api
+
+const API_URL =
+    process.env.REACT_APP_API_URL ||
+    "http://localhost:8080";
+
 const api = axios.create({
-    baseURL: "http://localhost:8080/api",
+
+    baseURL: `${API_URL.replace(/\/+$/, "")}/api`,
+
     headers: {
         "Content-Type": "application/json"
     }
 });
 
 
-/* =========================================
-   REQUEST INTERCEPTOR
-========================================= */
+// =========================================
+// REQUEST INTERCEPTOR
+// =========================================
 
 api.interceptors.request.use(
+
     (config) => {
 
-        const token =
-            localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
         if (token) {
 
@@ -34,9 +50,9 @@ api.interceptors.request.use(
 );
 
 
-/* =========================================
-   RESPONSE INTERCEPTOR
-========================================= */
+// =========================================
+// RESPONSE INTERCEPTOR
+// =========================================
 
 api.interceptors.response.use(
 
