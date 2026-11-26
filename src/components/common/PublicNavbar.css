@@ -1,0 +1,153 @@
+.public-navbar {
+    min-height: 82px;
+    width: 100%;
+    padding: 14px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 3px 18px rgba(15, 40, 60, 0.07);
+    box-sizing: border-box;
+}
+
+.public-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    text-decoration: none;
+    color: #123047;
+}
+
+.public-brand-icon {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: #e5f7f7;
+    color: #087f8c;
+}
+
+.public-brand h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.public-brand span {
+    font-size: 10px;
+    color: #64748b;
+}
+
+.public-nav-links,
+.public-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+}
+
+.public-nav-links a {
+    color: #425466;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.public-nav-links a:hover {
+    color: #087f8c;
+}
+
+.public-nav-actions {
+    gap: 11px;
+}
+
+.public-login-btn,
+.public-register-btn {
+    padding: 11px 21px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.public-login-btn {
+    color: #087f8c;
+    border: 1px solid #b7dfe0;
+}
+
+.public-login-btn:hover,
+.public-login-btn.active {
+    background: #e5f7f7;
+}
+
+.public-register-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    background: #087f8c;
+    color: #ffffff;
+}
+
+.public-register-btn:hover,
+.public-register-btn.active {
+    background: #086b78;
+}
+
+@media (max-width: 950px) {
+    .public-navbar {
+        padding: 14px 4%;
+    }
+
+    .public-nav-links {
+        gap: 14px;
+    }
+}
+
+@media (max-width: 700px) {
+    .public-navbar {
+        flex-wrap: wrap;
+        gap: 13px;
+    }
+
+    .public-nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 20px;
+        padding-top: 8px;
+    }
+
+    .public-nav-links a {
+        font-size: 12px;
+    }
+
+    .public-nav-actions {
+        gap: 7px;
+    }
+
+    .public-login-btn,
+    .public-register-btn {
+        padding: 9px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 390px) {
+    .public-brand h2 {
+        font-size: 17px;
+    }
+
+    .public-brand span {
+        font-size: 9px;
+    }
+
+    .public-nav-links {
+        gap: 13px;
+    }
+}
