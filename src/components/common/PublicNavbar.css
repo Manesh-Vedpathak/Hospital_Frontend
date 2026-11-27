@@ -22,7 +22,7 @@
    BRAND
 ========================================= */
 
-.public-brand {
+.public-navbar .public-brand {
     display: flex;
     align-items: center;
     gap: 11px;
@@ -31,7 +31,7 @@
     flex-shrink: 0;
 }
 
-.public-brand-icon {
+.public-navbar .public-brand-icon {
     width: 48px;
     height: 48px;
     display: grid;
@@ -41,12 +41,12 @@
     color: #087f8c;
 }
 
-.public-brand h2 {
+.public-navbar .public-brand h2 {
     margin: 0;
     font-size: 21px;
 }
 
-.public-brand span {
+.public-navbar .public-brand span {
     font-size: 10px;
     color: #64748b;
 }
@@ -55,28 +55,21 @@
    DESKTOP NAVIGATION
 ========================================= */
 
-.public-nav-links {
+.public-navbar .public-nav-links {
     display: flex;
     align-items: center;
     gap: 27px;
 }
 
-.public-nav-links > a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+.public-navbar .public-nav-links > a {
     color: #425466;
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
 }
 
-.public-nav-links > a svg {
-    display: none;
-}
-
-.public-nav-links > a:hover {
+.public-navbar .public-nav-links > a:hover {
     color: #087f8c;
 }
 
@@ -84,15 +77,15 @@
    AUTH BUTTONS
 ========================================= */
 
-.public-nav-actions,
-.public-mobile-actions {
+.public-navbar .public-nav-actions,
+.public-navbar .public-mobile-actions {
     display: flex;
     align-items: center;
     gap: 11px;
 }
 
-.public-login-btn,
-.public-register-btn {
+.public-navbar .public-login-btn,
+.public-navbar .public-register-btn {
     padding: 11px 21px;
     border-radius: 8px;
     text-decoration: none;
@@ -101,17 +94,18 @@
     transition: all 0.2s ease;
 }
 
-.public-login-btn {
+.public-navbar .public-login-btn {
     color: #087f8c;
     border: 1px solid #b7dfe0;
+    background: #ffffff;
 }
 
-.public-login-btn:hover,
-.public-login-btn.active {
+.public-navbar .public-login-btn:hover,
+.public-navbar .public-login-btn.active {
     background: #e5f7f7;
 }
 
-.public-register-btn {
+.public-navbar .public-register-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -120,8 +114,8 @@
     color: #ffffff;
 }
 
-.public-register-btn:hover,
-.public-register-btn.active {
+.public-navbar .public-register-btn:hover,
+.public-navbar .public-register-btn.active {
     background: #086b78;
 }
 
@@ -129,32 +123,27 @@
    HAMBURGER BUTTON
 ========================================= */
 
-.public-menu-toggle {
+.public-navbar .public-menu-toggle {
     display: none;
     width: 46px;
     height: 46px;
     align-items: center;
     justify-content: center;
-    border: 1px solid #d5eeee;
-    border-radius: 11px;
-    background: #e5f7f7;
+    border: none;
+    background: transparent;
     color: #087f8c;
+    border-radius: 9px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
-.public-menu-toggle:hover {
-    background: #d6f0ef;
+.public-navbar .public-menu-toggle.active {
+    color: #087f8c;
 }
 
-.public-menu-toggle.active {
-    background: #087f8c;
-    color: #ffffff;
-}
+/* MOBILE ACTIONS HIDDEN ON DESKTOP */
 
-/* Hide mobile auth buttons on desktop */
-
-.public-mobile-actions {
+.public-navbar .public-mobile-actions {
     display: none;
 }
 
@@ -169,132 +158,135 @@
         gap: 15px;
     }
 
-    .public-nav-links {
+    .public-navbar .public-nav-links {
         gap: 14px;
-    }
-
-    .public-login-btn,
-    .public-register-btn {
-        padding: 10px 14px;
     }
 }
 
 /* =========================================
-   MOBILE HAMBURGER MENU
+   MOBILE NAVIGATION
 ========================================= */
 
 @media (max-width: 700px) {
 
     .public-navbar {
         min-height: 76px;
-        padding: 12px 4%;
+        padding: 12px 5%;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
         gap: 0;
     }
 
     /* BRAND */
 
-    .public-brand {
+    .public-navbar .public-brand {
         gap: 10px;
     }
 
-    .public-brand-icon {
+    .public-navbar .public-brand-icon {
         width: 46px;
         height: 46px;
     }
 
-    .public-brand h2 {
+    .public-navbar .public-brand h2 {
         font-size: 19px;
     }
 
-    .public-brand span {
+    .public-navbar .public-brand span {
         font-size: 10px;
     }
 
-    /* HAMBURGER BUTTON */
+    /* HAMBURGER */
 
-    .public-menu-toggle {
-        display: inline-flex;
-        flex-shrink: 0;
+    .public-navbar .public-menu-toggle {
+        display: inline-flex !important;
     }
 
-    /* MOBILE NAVIGATION DROPDOWN */
+    /* HIDE DESKTOP AUTH BUTTONS */
 
-    .public-nav-links {
-        display: none;
+    .public-navbar > .public-nav-actions {
+        display: none !important;
+    }
+
+    /* DROPDOWN MENU */
+
+    .public-navbar .public-nav-links {
+        display: none !important;
         order: 3;
         flex-direction: column;
         align-items: stretch;
-        gap: 5px;
+        gap: 0;
         width: 100%;
-        margin-top: 13px;
-        padding: 13px;
+        margin: 0;
+        margin-top: 12px;
+        padding: 14px 0 8px;
         background: #ffffff;
-        border: 1px solid #e2eeee;
-        border-radius: 14px;
-        box-shadow: 0 12px 30px rgba(15, 40, 60, 0.10);
+        border-top: 1px solid #e8edef;
+        box-shadow: 0 12px 25px rgba(15, 40, 60, 0.06);
+    }
+
+    .public-navbar .public-nav-links.open {
+        display: flex !important;
         animation: publicMenuSlide 0.22s ease;
     }
 
-    .public-nav-links.open {
-        display: flex;
-    }
+    /* NAVIGATION ROWS */
 
-    /* MOBILE LINKS */
-
-    .public-nav-links > a {
+    .public-navbar .public-nav-links > a {
         display: flex;
         align-items: center;
-        gap: 13px;
+        min-height: 68px;
         width: 100%;
-        padding: 13px 12px;
-        border-radius: 9px;
+        padding: 0 18px;
+        border-bottom: 1px solid #e9edef;
         color: #425466;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 600;
         text-decoration: none;
-        transition: all 0.2s ease;
+        box-sizing: border-box;
     }
 
-    .public-nav-links > a svg {
-        display: block;
-        color: #087f8c;
-    }
-
-    .public-nav-links > a:hover,
-    .public-nav-links > a:active {
-        background: #eaf8f7;
+    .public-navbar .public-nav-links > a:hover,
+    .public-navbar .public-nav-links > a:active {
+        background: #f6fbfb;
         color: #087f8c;
     }
 
     /* MOBILE AUTH BUTTONS */
 
-    .public-nav-actions {
-        display: none;
-    }
-
-    .public-mobile-actions {
-        display: flex;
+    .public-navbar .public-mobile-actions {
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
         width: 100%;
-        gap: 10px;
-        padding-top: 12px;
-        margin-top: 8px;
-        border-top: 1px solid #edf1f4;
+        gap: 12px;
+        padding: 25px 0 8px;
+        margin-top: 0;
+        border-top: none;
     }
 
-    .public-mobile-actions a {
-        flex: 1;
+    .public-navbar .public-mobile-actions a {
+        display: flex;
+        align-items: center;
         justify-content: center;
-        text-align: center;
+        width: 100%;
+        min-height: 62px;
+        box-sizing: border-box;
+        border-radius: 11px;
+        font-size: 16px;
     }
 
-    .public-mobile-actions .public-login-btn,
-    .public-mobile-actions .public-register-btn {
-        padding: 12px 10px;
-        font-size: 13px;
+    .public-navbar .public-mobile-actions .public-login-btn {
+        border: 1px solid #dce7e9;
+        background: #ffffff;
+        color: #087f8c;
+    }
+
+    .public-navbar .public-mobile-actions .public-register-btn {
+        background: #087f8c;
+        color: #ffffff;
     }
 }
 
@@ -303,6 +295,7 @@
 ========================================= */
 
 @keyframes publicMenuSlide {
+
     from {
         opacity: 0;
         transform: translateY(-8px);
@@ -321,38 +314,29 @@
 @media (max-width: 390px) {
 
     .public-navbar {
-        padding: 11px 4%;
+        padding: 11px 5%;
     }
 
-    .public-brand {
+    .public-navbar .public-brand {
         gap: 8px;
     }
 
-    .public-brand-icon {
-        width: 42px;
-        height: 42px;
-    }
-
-    .public-brand h2 {
-        font-size: 17px;
-    }
-
-    .public-brand span {
-        font-size: 9px;
-    }
-
-    .public-menu-toggle {
+    .public-navbar .public-brand-icon {
         width: 43px;
         height: 43px;
     }
 
-    .public-mobile-actions {
-        gap: 7px;
+    .public-navbar .public-brand h2 {
+        font-size: 17px;
     }
 
-    .public-mobile-actions a {
-        padding: 11px 7px;
-        font-size: 12px;
+    .public-navbar .public-brand span {
+        font-size: 9px;
+    }
+
+    .public-navbar .public-menu-toggle {
+        width: 43px;
+        height: 43px;
     }
 }
 
@@ -362,9 +346,9 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-    .public-nav-links,
-    .public-nav-links > a,
-    .public-menu-toggle {
+    .public-navbar .public-nav-links,
+    .public-navbar .public-nav-links > a,
+    .public-navbar .public-menu-toggle {
         animation: none;
         transition: none;
     }

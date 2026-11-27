@@ -5,11 +5,7 @@ import {
     HeartPulse,
     ArrowRight,
     Menu,
-    X,
-    Home,
-    Info,
-    Stethoscope,
-    Phone
+    X
 } from "lucide-react";
 
 import "./PublicNavbar.css";
@@ -23,14 +19,12 @@ function PublicNavbar() {
     const isLogin = location.pathname === "/login";
     const isRegister = location.pathname === "/register";
 
-    // Close mobile menu
     const closeMenu = () => {
         setMenuOpen(false);
     };
 
-    // Toggle mobile menu
     const toggleMenu = () => {
-        setMenuOpen((previous) => !previous);
+        setMenuOpen(previous => !previous);
     };
 
     return (
@@ -52,25 +46,29 @@ function PublicNavbar() {
                 </div>
             </Link>
 
-            {/* HAMBURGER BUTTON - MOBILE */}
+            {/* HAMBURGER / CLOSE BUTTON */}
             <button
                 type="button"
                 className={`public-menu-toggle ${
                     menuOpen ? "active" : ""
                 }`}
                 onClick={toggleMenu}
-                aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-label={
+                    menuOpen
+                        ? "Close navigation menu"
+                        : "Open navigation menu"
+                }
                 aria-expanded={menuOpen}
                 aria-controls="public-navigation"
             >
                 {menuOpen ? (
-                    <X size={25} />
+                    <X size={27} />
                 ) : (
-                    <Menu size={25} />
+                    <Menu size={27} />
                 )}
             </button>
 
-            {/* NAVIGATION */}
+            {/* NAVIGATION MENU */}
             <nav
                 id="public-navigation"
                 className={`public-nav-links ${
@@ -78,27 +76,35 @@ function PublicNavbar() {
                 }`}
             >
 
-                <Link to="/#home" onClick={closeMenu}>
-                    <Home size={17} />
-                    <span>Home</span>
+                <Link
+                    to="/#home"
+                    onClick={closeMenu}
+                >
+                    Home
                 </Link>
 
-                <Link to="/#about" onClick={closeMenu}>
-                    <Info size={17} />
-                    <span>About</span>
+                <Link
+                    to="/#about"
+                    onClick={closeMenu}
+                >
+                    About
                 </Link>
 
-                <Link to="/#services" onClick={closeMenu}>
-                    <Stethoscope size={17} />
-                    <span>Services</span>
+                <Link
+                    to="/#services"
+                    onClick={closeMenu}
+                >
+                    Services
                 </Link>
 
-                <Link to="/#contact" onClick={closeMenu}>
-                    <Phone size={17} />
-                    <span>Contact</span>
+                <Link
+                    to="/#contact"
+                    onClick={closeMenu}
+                >
+                    Contact
                 </Link>
 
-                {/* MOBILE AUTH BUTTONS */}
+                {/* MOBILE LOGIN AND REGISTER */}
                 <div className="public-mobile-actions">
 
                     <Link
@@ -119,14 +125,14 @@ function PublicNavbar() {
                         onClick={closeMenu}
                     >
                         Register
-                        <ArrowRight size={16} />
+                        <ArrowRight size={18} />
                     </Link>
 
                 </div>
 
             </nav>
 
-            {/* DESKTOP AUTH BUTTONS */}
+            {/* DESKTOP LOGIN AND REGISTER */}
             <div className="public-nav-actions">
 
                 <Link
