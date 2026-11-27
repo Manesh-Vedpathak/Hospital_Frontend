@@ -23,7 +23,11 @@ import ProfileService from "../../services/ProfileService";
 import "../../styles/navbar.css";
 
 
-function Navbar({ role = "ADMIN", onMenuClick }) {
+function Navbar({
+    role = "ADMIN",
+    onMenuClick,
+    sidebarOpen = false
+}) {
 
     const navigate = useNavigate();
 
@@ -459,11 +463,15 @@ function Navbar({ role = "ADMIN", onMenuClick }) {
                     className="mobile-menu-button"
                     type="button"
                     onClick={onMenuClick}
-                    aria-label="Open navigation menu"
+                    aria-label={
+                        sidebarOpen
+                            ? "Close navigation menu"
+                            : "Open navigation menu"
+                    }
                     aria-controls="admin-sidebar"
-                    aria-expanded={false}
+                    aria-expanded={sidebarOpen}
                 >
-                    ☰
+                    {sidebarOpen ? "✕" : "☰"}
                 </button>
 
 

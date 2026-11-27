@@ -8,7 +8,7 @@ function AdminLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
-        setSidebarOpen((previous) => !previous);
+        setSidebarOpen(previous => !previous);
     };
 
     const closeSidebar = () => {
@@ -18,7 +18,7 @@ function AdminLayout() {
     return (
         <div className="app-layout">
 
-            {/* MOBILE SIDEBAR BACKDROP */}
+            {/* MOBILE BACKDROP */}
             {sidebarOpen && (
                 <button
                     type="button"
@@ -41,6 +41,7 @@ function AdminLayout() {
                 <Navbar
                     role="ADMIN"
                     onMenuClick={toggleSidebar}
+                    sidebarOpen={sidebarOpen}
                 />
 
                 <main className="page-content">

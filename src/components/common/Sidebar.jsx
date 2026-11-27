@@ -1,11 +1,6 @@
-import React, {
-    useEffect,
-    useState
-} from "react";
+import React, { useEffect, useState } from "react";
 
-import {
-    NavLink
-} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import {
     House,
@@ -22,7 +17,6 @@ import api from "../../services/api";
 
 import "../../styles/sidebar.css";
 
-
 function Sidebar({
     role = "ADMIN",
     isOpen = false,
@@ -31,16 +25,11 @@ function Sidebar({
 
     const [profile, setProfile] = useState(null);
 
-
-    /* =========================================
-       LOAD PROFILE
-    ========================================= */
+    /* LOAD PROFILE */
 
     useEffect(() => {
 
         const fetchProfile = async () => {
-
-            /* ADMIN DOES NOT NEED PROFILE API */
 
             if (role === "ADMIN") {
                 return;
@@ -50,34 +39,15 @@ function Sidebar({
 
                 let response;
 
-                /* =================================
-                   DOCTOR
-                ================================= */
-
                 if (role === "DOCTOR") {
-
-                    response = await api.get(
-                        "/doctor/profile"
-                    );
-
+                    response = await api.get("/doctor/profile");
                 }
-
-                /* =================================
-                   PATIENT
-                ================================= */
 
                 if (role === "PATIENT") {
-
-                    response = await api.get(
-                        "/patient/profile"
-                    );
-
+                    response = await api.get("/patient/profile");
                 }
 
-                /* HANDLE AXIOS RESPONSE */
-
-                const profileData =
-                    response?.data ?? response;
+                const profileData = response?.data ?? response;
 
                 if (profileData) {
                     setProfile(profileData);
@@ -98,178 +68,124 @@ function Sidebar({
 
     }, [role]);
 
-
-    /* =========================================
-       MENU ITEMS
-    ========================================= */
+    /* MENU ITEMS */
 
     const menuItems = {
 
-        /* =========================================
-           ADMIN
-        ========================================= */
-
         ADMIN: [
-
             {
                 path: "/admin/dashboard",
                 icon: House,
                 label: "Dashboard"
             },
-
             {
                 path: "/admin/doctors",
                 icon: Stethoscope,
                 label: "Doctors"
             },
-
             {
                 path: "/admin/patients",
                 icon: UserRound,
                 label: "Patients"
             },
-
             {
                 path: "/admin/departments",
                 icon: Building2,
                 label: "Departments"
             },
-
             {
                 path: "/admin/appointments",
                 icon: CalendarCheck,
                 label: "Appointments"
             },
-
             {
                 path: "/admin/medicines",
                 icon: Pill,
                 label: "Medicines"
             },
-
             {
                 path: "/admin/billing",
                 icon: IndianRupee,
                 label: "Billing"
             },
-
             {
                 path: "/admin/reports",
                 icon: ChartColumn,
                 label: "Reports"
             }
-
         ],
 
-
-        /* =========================================
-           DOCTOR
-        ========================================= */
-
         DOCTOR: [
-
             {
                 path: "/doctor/dashboard",
                 icon: House,
                 label: "Dashboard"
             },
-
             {
                 path: "/doctor/patients",
                 icon: UserRound,
                 label: "My Patients"
             },
-
             {
                 path: "/doctor/appointments",
                 icon: CalendarCheck,
                 label: "My Appointments"
             },
-
             {
                 path: "/doctor/prescriptions",
                 icon: Pill,
                 label: "Prescriptions"
             },
-
             {
                 path: "/doctor/reports",
                 icon: ChartColumn,
                 label: "Reports"
             }
-
         ],
 
-
-        /* =========================================
-           PATIENT
-        ========================================= */
-
         PATIENT: [
-
             {
                 path: "/patient/dashboard",
                 icon: House,
                 label: "Dashboard"
             },
-
             {
                 path: "/patient/doctors",
                 icon: Stethoscope,
                 label: "Doctors"
             },
-
             {
                 path: "/patient/appointments",
                 icon: CalendarCheck,
                 label: "My Appointments"
             },
-
             {
                 path: "/patient/prescriptions",
                 icon: Pill,
-                label: "Prescriptions"
+                label: "My Prescriptions"
             },
-
             {
                 path: "/patient/billing",
                 icon: IndianRupee,
                 label: "My Bills"
             }
-
         ]
 
     };
 
+    const items = menuItems[role] || menuItems.ADMIN;
 
-    const items =
-        menuItems[role] || menuItems.ADMIN;
-
-
-    /* =========================================
-       GET SIDEBAR NAME
-    ========================================= */
+    /* SIDEBAR NAME */
 
     const getSidebarName = () => {
 
-        /* =====================================
-           ADMIN
-        ===================================== */
-
         if (role === "ADMIN") {
-
-            const adminName =
+            return (
                 profile?.name ||
-                profile?.fullName;
-
-            return adminName || "Administrator";
-
+                profile?.fullName ||
+                "Administrator"
+            );
         }
-
-
-        /* =====================================
-           DOCTOR
-        ===================================== */
 
         if (role === "DOCTOR") {
 
@@ -282,19 +198,12 @@ function Sidebar({
                 return "Doctor";
             }
 
-            const cleanName =
-                String(doctorName)
-                    .replace(/^dr\.?\s+/i, "")
-                    .trim();
+            const cleanName = String(doctorName)
+                .replace(/^dr\.?\s+/i, "")
+                .trim();
 
             return `Dr. ${cleanName}`;
-
         }
-
-
-        /* =====================================
-           PATIENT
-        ===================================== */
 
         if (role === "PATIENT") {
 
@@ -307,99 +216,63 @@ function Sidebar({
                 return "Patient";
             }
 
-            const cleanName =
-                String(patientName)
-                    .replace(
-                        /^(mr\.?|mrs\.?|ms\.?)\s+/i,
-                        ""
-                    )
-                    .trim();
+            const cleanName = String(patientName)
+                .replace(/^(mr\.?|mrs\.?|ms\.?)\s+/i, "")
+                .trim();
 
-            /* FEMALE */
+            const gender = String(profile?.gender || "").toUpperCase();
 
-            if (
-                String(profile?.gender || "").toUpperCase()
-                === "FEMALE"
-            ) {
+            if (gender === "FEMALE") {
                 return `Mrs. ${cleanName}`;
             }
 
-            /* MALE */
-
-            if (
-                String(profile?.gender || "").toUpperCase()
-                === "MALE"
-            ) {
+            if (gender === "MALE") {
                 return `Mr. ${cleanName}`;
             }
 
             return cleanName;
-
         }
 
         return "Patient";
-
     };
-
 
     const sidebarName = getSidebarName();
 
-
-    /* =========================================
-       ROLE ICON
-    ========================================= */
-
     const roleIcon =
-        role === "ADMIN"
-            ? "A"
-            : role === "DOCTOR"
-                ? "D"
-                : "P";
+        role === "ADMIN" ? "A" :
+        role === "DOCTOR" ? "D" : "P";
 
+    const roleLabel =
+        role === "ADMIN" ? "Administrator" :
+        role === "DOCTOR" ? "Doctor" : "Patient";
 
-    /* =========================================
-       ROLE LABEL
-    ========================================= */
+    /* CLOSE ON ESCAPE */
 
-    const getRoleLabel = () => {
+    useEffect(() => {
 
-        if (role === "ADMIN") {
-            return "Administrator";
-        }
+        const handleEscape = (event) => {
+            if (event.key === "Escape" && isOpen) {
+                onClose();
+            }
+        };
 
-        if (role === "DOCTOR") {
-            return "Doctor";
-        }
+        document.addEventListener("keydown", handleEscape);
 
-        if (role === "PATIENT") {
-            return "Patient";
-        }
+        return () => {
+            document.removeEventListener("keydown", handleEscape);
+        };
 
-        return "Patient";
-
-    };
-
-
-    const roleLabel = getRoleLabel();
-
-
-    /* =========================================
-       SIDEBAR
-    ========================================= */
+    }, [isOpen, onClose]);
 
     return (
 
         <aside
             id="admin-sidebar"
-            className={`sidebar ${
-                isOpen ? "sidebar-open" : ""
-            }`}
-            aria-label={`${roleLabel} navigation`}
+            className={`sidebar ${isOpen ? "sidebar-open" : ""}`}
+            aria-hidden={!isOpen && window.innerWidth <= 600}
         >
 
-            {/* =====================================
-                LOGO
-            ===================================== */}
+            {/* LOGO */}
 
             <div className="sidebar-logo">
 
@@ -408,23 +281,13 @@ function Sidebar({
                 </div>
 
                 <div className="sidebar-logo-text">
-
-                    <h2>
-                        HMS
-                    </h2>
-
-                    <span>
-                        Hospital Management
-                    </span>
-
+                    <h2>HMS</h2>
+                    <span>Hospital Management</span>
                 </div>
 
             </div>
 
-
-            {/* =====================================
-                USER / ROLE
-            ===================================== */}
+            {/* USER ROLE */}
 
             <div className="sidebar-role">
 
@@ -434,22 +297,15 @@ function Sidebar({
 
                 <div className="sidebar-role-details">
 
-                    <strong>
-                        {sidebarName}
-                    </strong>
+                    <strong>{sidebarName}</strong>
 
-                    <span>
-                        {roleLabel}
-                    </span>
+                    <span>{roleLabel}</span>
 
                 </div>
 
             </div>
 
-
-            {/* =====================================
-                MENU
-            ===================================== */}
+            {/* MENU */}
 
             <nav className="sidebar-menu">
 
@@ -468,25 +324,16 @@ function Sidebar({
                             to={item.path}
                             onClick={onClose}
                             className={({ isActive }) =>
-                                `sidebar-link ${
-                                    isActive ? "active" : ""
-                                }`
+                                `sidebar-link ${isActive ? "active" : ""}`
                             }
                         >
 
-                            {/* ICON */}
-
                             <span className="sidebar-link-icon">
-
                                 <Icon
                                     size={20}
                                     strokeWidth={2}
                                 />
-
                             </span>
-
-
-                            {/* LABEL */}
 
                             <span className="sidebar-link-label">
                                 {item.label}
@@ -503,8 +350,6 @@ function Sidebar({
         </aside>
 
     );
-
 }
-
 
 export default Sidebar;
