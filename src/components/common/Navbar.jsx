@@ -23,7 +23,7 @@ import ProfileService from "../../services/ProfileService";
 import "../../styles/navbar.css";
 
 
-function Navbar({ role = "ADMIN" }) {
+function Navbar({ role = "ADMIN", onMenuClick }) {
 
     const navigate = useNavigate();
 
@@ -37,24 +37,21 @@ function Navbar({ role = "ADMIN" }) {
        PROFILE
     ========================================= */
 
-    const [profile, setProfile] =
-        useState(null);
+    const [profile, setProfile] = useState(null);
 
 
     /* =========================================
        DROPDOWN
     ========================================= */
 
-    const [dropdownOpen, setDropdownOpen] =
-        useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
 
     /* =========================================
        DROPDOWN REF
     ========================================= */
 
-    const dropdownRef =
-        useRef(null);
+    const dropdownRef = useRef(null);
 
 
     /* =========================================
@@ -71,20 +68,14 @@ function Navbar({ role = "ADMIN" }) {
 
     useEffect(() => {
 
-        const timer =
-            setInterval(() => {
+        const timer = setInterval(() => {
 
-                setCurrentDateTime(
-                    new Date()
-                );
+            setCurrentDateTime(new Date());
 
-            }, 1000);
-
+        }, 1000);
 
         return () => {
-
             clearInterval(timer);
-
         };
 
     }, []);
@@ -102,67 +93,28 @@ function Navbar({ role = "ADMIN" }) {
 
                 let response = null;
 
-
-                /* =================================
-                   ADMIN
-                ================================= */
-
                 if (role === "ADMIN") {
 
                     response =
-                        await ProfileService
-                            .getAdminProfile();
+                        await ProfileService.getAdminProfile();
 
-                }
-
-
-                /* =================================
-                   DOCTOR
-                ================================= */
-
-                else if (role === "DOCTOR") {
+                } else if (role === "DOCTOR") {
 
                     response =
-                        await ProfileService
-                            .getDoctorProfile();
+                        await ProfileService.getDoctorProfile();
 
-                }
-
-
-                /* =================================
-                   PATIENT
-                ================================= */
-
-                else if (role === "PATIENT") {
+                } else if (role === "PATIENT") {
 
                     response =
-                        await ProfileService
-                            .getPatientProfile();
+                        await ProfileService.getPatientProfile();
 
                 }
-
-
-                /*
-                 * Handle both:
-                 *
-                 * response.data
-                 *
-                 * and
-                 *
-                 * response
-                 */
 
                 const profileData =
-                    response?.data ??
-                    response;
-
+                    response?.data ?? response;
 
                 if (profileData) {
-
-                    setProfile(
-                        profileData
-                    );
-
+                    setProfile(profileData);
                 }
 
             } catch (error) {
@@ -178,11 +130,8 @@ function Navbar({ role = "ADMIN" }) {
 
         };
 
-
         if (user) {
-
             loadProfile();
-
         }
 
     }, [role, user]);
@@ -198,9 +147,7 @@ function Navbar({ role = "ADMIN" }) {
 
             if (
                 dropdownRef.current &&
-                !dropdownRef.current.contains(
-                    event.target
-                )
+                !dropdownRef.current.contains(event.target)
             ) {
 
                 setDropdownOpen(false);
@@ -209,12 +156,10 @@ function Navbar({ role = "ADMIN" }) {
 
         };
 
-
         document.addEventListener(
             "mousedown",
             handleClickOutside
         );
-
 
         return () => {
 
@@ -236,22 +181,16 @@ function Navbar({ role = "ADMIN" }) {
 
         const handleEscape = (event) => {
 
-            if (
-                event.key === "Escape"
-            ) {
-
+            if (event.key === "Escape") {
                 setDropdownOpen(false);
-
             }
 
         };
-
 
         document.addEventListener(
             "keydown",
             handleEscape
         );
-
 
         return () => {
 
@@ -323,17 +262,13 @@ function Navbar({ role = "ADMIN" }) {
     const roleNames = {
 
         ADMIN: "Administrator",
-
         DOCTOR: "Doctor",
-
         PATIENT: "Patient"
 
     };
 
-
     const roleName =
-        roleNames[role] ||
-        "Patient";
+        roleNames[role] || "Patient";
 
 
     /* =========================================
@@ -342,11 +277,6 @@ function Navbar({ role = "ADMIN" }) {
 
     const getDisplayName = () => {
 
-
-        /* =====================================
-           DOCTOR
-        ===================================== */
-
         if (role === "DOCTOR") {
 
             const doctorName =
@@ -354,43 +284,19 @@ function Navbar({ role = "ADMIN" }) {
                 profile?.name ||
                 profile?.fullName;
 
-
             if (!doctorName) {
-
                 return roleName;
-
             }
-
-
-            /*
-             * Remove existing Dr. prefix.
-             *
-             * Example:
-             *
-             * Dr. Priya Sharma
-             *
-             * becomes:
-             *
-             * Priya Sharma
-             */
 
             const cleanName =
                 String(doctorName)
-                    .replace(
-                        /^dr\.?\s+/i,
-                        ""
-                    )
+                    .replace(/^dr\.?\s+/i, "")
                     .trim();
-
 
             return `Dr. ${cleanName}`;
 
         }
 
-
-        /* =====================================
-           PATIENT
-        ===================================== */
 
         if (role === "PATIENT") {
 
@@ -399,92 +305,50 @@ function Navbar({ role = "ADMIN" }) {
                 profile?.name ||
                 profile?.fullName;
 
-
             if (!patientName) {
-
                 return roleName;
-
             }
-
-
-            /*
-             * Remove existing English title.
-             */
 
             const cleanName =
                 String(patientName)
-                    .replace(
-                        /^(mr\.?|mrs\.?|ms\.?)\s+/i,
-                        ""
-                    )
+                    .replace(/^(mr\.?|mrs\.?|ms\.?)\s+/i, "")
                     .trim();
 
-
-            /* =================================
-               FEMALE
-            ================================= */
-
             if (
-                String(
-                    profile?.gender || ""
-                ).toUpperCase() === "FEMALE"
+                String(profile?.gender || "").toUpperCase()
+                === "FEMALE"
             ) {
-
                 return `Mrs. ${cleanName}`;
-
             }
-
-
-            /* =================================
-               MALE
-            ================================= */
 
             if (
-                String(
-                    profile?.gender || ""
-                ).toUpperCase() === "MALE"
+                String(profile?.gender || "").toUpperCase()
+                === "MALE"
             ) {
-
                 return `Mr. ${cleanName}`;
-
             }
-
 
             return cleanName;
 
         }
 
 
-        /* =====================================
-           ADMIN
-        ===================================== */
-
         if (role === "ADMIN") {
 
-            const adminName =
+            return (
                 profile?.name ||
-                profile?.fullName;
-
-
-            if (adminName) {
-
-                return adminName;
-
-            }
-
-
-            return roleName;
+                profile?.fullName ||
+                roleName
+            );
 
         }
-
 
         return roleName;
 
     };
 
 
-    const displayName =
-        getDisplayName();
+    const displayName = getDisplayName();
 
 
     /* =========================================
@@ -492,15 +356,10 @@ function Navbar({ role = "ADMIN" }) {
     ========================================= */
 
     const userIcon =
-
         role === "ADMIN"
-
             ? "👨‍💼"
-
             : role === "DOCTOR"
-
                 ? "👨‍⚕️"
-
                 : "🙍‍♂️";
 
 
@@ -511,25 +370,16 @@ function Navbar({ role = "ADMIN" }) {
     const getProfileRoute = () => {
 
         if (role === "ADMIN") {
-
             return "/admin/profile";
-
         }
-
 
         if (role === "DOCTOR") {
-
             return "/doctor/profile";
-
         }
-
 
         if (role === "PATIENT") {
-
             return "/patient/profile";
-
         }
-
 
         return "/";
 
@@ -544,9 +394,7 @@ function Navbar({ role = "ADMIN" }) {
 
         setDropdownOpen(false);
 
-        navigate(
-            getProfileRoute()
-        );
+        navigate(getProfileRoute());
 
     };
 
@@ -561,12 +409,9 @@ function Navbar({ role = "ADMIN" }) {
 
         logout();
 
-        navigate(
-            "/",
-            {
-                replace: true
-            }
-        );
+        navigate("/", {
+            replace: true
+        });
 
     };
 
@@ -578,35 +423,17 @@ function Navbar({ role = "ADMIN" }) {
     const handleEmergency = () => {
 
         if (role === "ADMIN") {
-
-            navigate(
-                "/admin/emergency"
-            );
-
+            navigate("/admin/emergency");
             return;
-
         }
-
 
         if (role === "DOCTOR") {
-
-            navigate(
-                "/doctor/emergency"
-            );
-
+            navigate("/doctor/emergency");
             return;
-
         }
 
-
         if (role === "PATIENT") {
-
-            navigate(
-                "/patient/emergency"
-            );
-
-            return;
-
+            navigate("/patient/emergency");
         }
 
     };
@@ -620,30 +447,29 @@ function Navbar({ role = "ADMIN" }) {
 
         <header className="navbar">
 
-
             {/* =================================
                 LEFT
             ================================= */}
 
             <div className="navbar-left">
 
-
                 {/* MOBILE MENU */}
 
                 <button
                     className="mobile-menu-button"
                     type="button"
+                    onClick={onMenuClick}
+                    aria-label="Open navigation menu"
+                    aria-controls="admin-sidebar"
+                    aria-expanded={false}
                 >
-
                     ☰
-
                 </button>
 
 
                 {/* DATE & TIME */}
 
                 <div className="navbar-datetime">
-
 
                     <div className="navbar-date">
 
@@ -657,11 +483,8 @@ function Navbar({ role = "ADMIN" }) {
 
                     </div>
 
-
                     <div className="navbar-time">
-
                         🕒 {time}
-
                     </div>
 
                 </div>
@@ -675,20 +498,15 @@ function Navbar({ role = "ADMIN" }) {
 
             <div className="navbar-right">
 
-
                 {/* EMERGENCY */}
 
                 <button
                     type="button"
                     className="emergency-navbar-button"
                     title="Emergency"
-                    onClick={
-                        handleEmergency
-                    }
+                    onClick={handleEmergency}
                 >
-
                     🚨
-
                 </button>
 
 
@@ -699,31 +517,21 @@ function Navbar({ role = "ADMIN" }) {
                     ref={dropdownRef}
                 >
 
-
                     {/* PROFILE BUTTON */}
 
                     <button
                         type="button"
                         className="navbar-profile-trigger"
                         onClick={() =>
-                            setDropdownOpen(
-                                previous =>
-                                    !previous
-                            )
+                            setDropdownOpen(previous => !previous)
                         }
-                        aria-expanded={
-                            dropdownOpen
-                        }
+                        aria-expanded={dropdownOpen}
                         aria-haspopup="menu"
                     >
 
-
                         <div className="navbar-avatar">
-
                             {userIcon}
-
                         </div>
-
 
                         <div className="navbar-profile-name">
 
@@ -732,7 +540,6 @@ function Navbar({ role = "ADMIN" }) {
                             </strong>
 
                         </div>
-
 
                         <ChevronDown
                             className={
@@ -755,26 +562,19 @@ function Navbar({ role = "ADMIN" }) {
                             role="menu"
                         >
 
-
                             {/* MY PROFILE */}
 
                             <button
                                 type="button"
                                 className="navbar-dropdown-item"
-                                onClick={
-                                    handleProfile
-                                }
+                                onClick={handleProfile}
                                 role="menuitem"
                             >
 
-                                <UserRound
-                                    size={19}
-                                />
+                                <UserRound size={19} />
 
                                 <span>
-
                                     My Profile
-
                                 </span>
 
                             </button>
@@ -782,9 +582,7 @@ function Navbar({ role = "ADMIN" }) {
 
                             {/* DIVIDER */}
 
-                            <div
-                                className="navbar-dropdown-divider"
-                            />
+                            <div className="navbar-dropdown-divider" />
 
 
                             {/* LOGOUT */}
@@ -792,20 +590,14 @@ function Navbar({ role = "ADMIN" }) {
                             <button
                                 type="button"
                                 className="navbar-dropdown-item navbar-dropdown-logout"
-                                onClick={
-                                    handleLogout
-                                }
+                                onClick={handleLogout}
                                 role="menuitem"
                             >
 
-                                <LogOut
-                                    size={19}
-                                />
+                                <LogOut size={19} />
 
                                 <span>
-
                                     Logout
-
                                 </span>
 
                             </button>
@@ -823,6 +615,5 @@ function Navbar({ role = "ADMIN" }) {
     );
 
 }
-
 
 export default Navbar;

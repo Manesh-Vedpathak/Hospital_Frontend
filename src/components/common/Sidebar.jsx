@@ -23,11 +23,13 @@ import api from "../../services/api";
 import "../../styles/sidebar.css";
 
 
-function Sidebar({ role = "ADMIN" }) {
+function Sidebar({
+    role = "ADMIN",
+    isOpen = false,
+    onClose = () => {}
+}) {
 
-
-    const [profile, setProfile] =
-        useState(null);
+    const [profile, setProfile] = useState(null);
 
 
     /* =========================================
@@ -41,16 +43,12 @@ function Sidebar({ role = "ADMIN" }) {
             /* ADMIN DOES NOT NEED PROFILE API */
 
             if (role === "ADMIN") {
-
                 return;
-
             }
-
 
             try {
 
                 let response;
-
 
                 /* =================================
                    DOCTOR
@@ -58,13 +56,11 @@ function Sidebar({ role = "ADMIN" }) {
 
                 if (role === "DOCTOR") {
 
-                    response =
-                        await api.get(
-                            "/doctor/profile"
-                        );
+                    response = await api.get(
+                        "/doctor/profile"
+                    );
 
                 }
-
 
                 /* =================================
                    PATIENT
@@ -72,29 +68,19 @@ function Sidebar({ role = "ADMIN" }) {
 
                 if (role === "PATIENT") {
 
-                    response =
-                        await api.get(
-                            "/patient/profile"
-                        );
+                    response = await api.get(
+                        "/patient/profile"
+                    );
 
                 }
 
-
-                /*
-                 * Handle Axios response.
-                 */
+                /* HANDLE AXIOS RESPONSE */
 
                 const profileData =
-                    response?.data ??
-                    response;
-
+                    response?.data ?? response;
 
                 if (profileData) {
-
-                    setProfile(
-                        profileData
-                    );
-
+                    setProfile(profileData);
                 }
 
             } catch (error) {
@@ -107,7 +93,6 @@ function Sidebar({ role = "ADMIN" }) {
             }
 
         };
-
 
         fetchProfile();
 
@@ -258,8 +243,7 @@ function Sidebar({ role = "ADMIN" }) {
 
 
     const items =
-        menuItems[role] ||
-        menuItems.ADMIN;
+        menuItems[role] || menuItems.ADMIN;
 
 
     /* =========================================
@@ -267,7 +251,6 @@ function Sidebar({ role = "ADMIN" }) {
     ========================================= */
 
     const getSidebarName = () => {
-
 
         /* =====================================
            ADMIN
@@ -279,15 +262,7 @@ function Sidebar({ role = "ADMIN" }) {
                 profile?.name ||
                 profile?.fullName;
 
-
-            if (adminName) {
-
-                return adminName;
-
-            }
-
-
-            return "Administrator";
+            return adminName || "Administrator";
 
         }
 
@@ -303,34 +278,14 @@ function Sidebar({ role = "ADMIN" }) {
                 profile?.name ||
                 profile?.fullName;
 
-
             if (!doctorName) {
-
                 return "Doctor";
-
             }
-
-
-            /*
-             * Remove existing Dr.
-             *
-             * Example:
-             *
-             * Dr. Priya Sharma
-             *
-             * becomes:
-             *
-             * Priya Sharma
-             */
 
             const cleanName =
                 String(doctorName)
-                    .replace(
-                        /^dr\.?\s+/i,
-                        ""
-                    )
+                    .replace(/^dr\.?\s+/i, "")
                     .trim();
-
 
             return `Dr. ${cleanName}`;
 
@@ -348,17 +303,9 @@ function Sidebar({ role = "ADMIN" }) {
                 profile?.name ||
                 profile?.fullName;
 
-
             if (!patientName) {
-
                 return "Patient";
-
             }
-
-
-            /*
-             * Remove existing English title.
-             */
 
             const cleanName =
                 String(patientName)
@@ -368,51 +315,34 @@ function Sidebar({ role = "ADMIN" }) {
                     )
                     .trim();
 
-
-            /* =================================
-               FEMALE
-            ================================= */
+            /* FEMALE */
 
             if (
-                String(
-                    profile?.gender || ""
-                ).toUpperCase() === "FEMALE"
+                String(profile?.gender || "").toUpperCase()
+                === "FEMALE"
             ) {
-
                 return `Mrs. ${cleanName}`;
-
             }
 
-
-            /* =================================
-               MALE
-            ================================= */
+            /* MALE */
 
             if (
-                String(
-                    profile?.gender || ""
-                ).toUpperCase() === "MALE"
+                String(profile?.gender || "").toUpperCase()
+                === "MALE"
             ) {
-
                 return `Mr. ${cleanName}`;
-
             }
-
-
-            /* Gender unavailable */
 
             return cleanName;
 
         }
-
 
         return "Patient";
 
     };
 
 
-    const sidebarName =
-        getSidebarName();
+    const sidebarName = getSidebarName();
 
 
     /* =========================================
@@ -434,33 +364,23 @@ function Sidebar({ role = "ADMIN" }) {
     const getRoleLabel = () => {
 
         if (role === "ADMIN") {
-
             return "Administrator";
-
         }
-
 
         if (role === "DOCTOR") {
-
             return "Doctor";
-
         }
-
 
         if (role === "PATIENT") {
-
             return "Patient";
-
         }
-
 
         return "Patient";
 
     };
 
 
-    const roleLabel =
-        getRoleLabel();
+    const roleLabel = getRoleLabel();
 
 
     /* =========================================
@@ -469,8 +389,13 @@ function Sidebar({ role = "ADMIN" }) {
 
     return (
 
-        <aside className="sidebar">
-
+        <aside
+            id="admin-sidebar"
+            className={`sidebar ${
+                isOpen ? "sidebar-open" : ""
+            }`}
+            aria-label={`${roleLabel} navigation`}
+        >
 
             {/* =====================================
                 LOGO
@@ -479,11 +404,8 @@ function Sidebar({ role = "ADMIN" }) {
             <div className="sidebar-logo">
 
                 <div className="sidebar-logo-icon">
-
                     🏥
-
                 </div>
-
 
                 <div className="sidebar-logo-text">
 
@@ -491,11 +413,8 @@ function Sidebar({ role = "ADMIN" }) {
                         HMS
                     </h2>
 
-
                     <span>
-
                         Hospital Management
-
                     </span>
 
                 </div>
@@ -510,25 +429,17 @@ function Sidebar({ role = "ADMIN" }) {
             <div className="sidebar-role">
 
                 <div className="sidebar-role-icon">
-
                     {roleIcon}
-
                 </div>
-
 
                 <div className="sidebar-role-details">
 
                     <strong>
-
                         {sidebarName}
-
                     </strong>
 
-
                     <span>
-
                         {roleLabel}
-
                     </span>
 
                 </div>
@@ -542,32 +453,23 @@ function Sidebar({ role = "ADMIN" }) {
 
             <nav className="sidebar-menu">
 
-
                 <div className="sidebar-menu-title">
-
                     Main Menu
-
                 </div>
-
 
                 {items.map((item) => {
 
-                    const Icon =
-                        item.icon;
-
+                    const Icon = item.icon;
 
                     return (
 
                         <NavLink
                             key={item.path}
                             to={item.path}
-                            className={({
-                                isActive
-                            }) =>
+                            onClick={onClose}
+                            className={({ isActive }) =>
                                 `sidebar-link ${
-                                    isActive
-                                        ? "active"
-                                        : ""
+                                    isActive ? "active" : ""
                                 }`
                             }
                         >
@@ -587,9 +489,7 @@ function Sidebar({ role = "ADMIN" }) {
                             {/* LABEL */}
 
                             <span className="sidebar-link-label">
-
                                 {item.label}
-
                             </span>
 
                         </NavLink>
