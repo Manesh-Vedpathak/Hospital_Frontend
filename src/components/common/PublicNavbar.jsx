@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+
 import {
     HeartPulse,
-    ArrowRight
+    ArrowRight,
+    Menu,
+    X,
+    Home,
+    Info,
+    Stethoscope,
+    Phone
 } from "lucide-react";
 
 import "./PublicNavbar.css";
@@ -11,14 +18,30 @@ function PublicNavbar() {
 
     const location = useLocation();
 
+    const [menuOpen, setMenuOpen] = useState(false);
+
     const isLogin = location.pathname === "/login";
     const isRegister = location.pathname === "/register";
+
+    // Close mobile menu
+    const closeMenu = () => {
+        setMenuOpen(false);
+    };
+
+    // Toggle mobile menu
+    const toggleMenu = () => {
+        setMenuOpen((previous) => !previous);
+    };
 
     return (
         <header className="public-navbar">
 
             {/* BRAND */}
-            <Link to="/" className="public-brand">
+            <Link
+                to="/"
+                className="public-brand"
+                onClick={closeMenu}
+            >
                 <div className="public-brand-icon">
                     <HeartPulse size={28} />
                 </div>
@@ -29,15 +52,81 @@ function PublicNavbar() {
                 </div>
             </Link>
 
+            {/* HAMBURGER BUTTON - MOBILE */}
+            <button
+                type="button"
+                className={`public-menu-toggle ${
+                    menuOpen ? "active" : ""
+                }`}
+                onClick={toggleMenu}
+                aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={menuOpen}
+                aria-controls="public-navigation"
+            >
+                {menuOpen ? (
+                    <X size={25} />
+                ) : (
+                    <Menu size={25} />
+                )}
+            </button>
+
             {/* NAVIGATION */}
-            <nav className="public-nav-links">
-                <Link to="/">Home</Link>
-                <Link to="/#about">About</Link>
-                <Link to="/#services">Services</Link>
-                <Link to="/#contact">Contact</Link>
+            <nav
+                id="public-navigation"
+                className={`public-nav-links ${
+                    menuOpen ? "open" : ""
+                }`}
+            >
+
+                <Link to="/#home" onClick={closeMenu}>
+                    <Home size={17} />
+                    <span>Home</span>
+                </Link>
+
+                <Link to="/#about" onClick={closeMenu}>
+                    <Info size={17} />
+                    <span>About</span>
+                </Link>
+
+                <Link to="/#services" onClick={closeMenu}>
+                    <Stethoscope size={17} />
+                    <span>Services</span>
+                </Link>
+
+                <Link to="/#contact" onClick={closeMenu}>
+                    <Phone size={17} />
+                    <span>Contact</span>
+                </Link>
+
+                {/* MOBILE AUTH BUTTONS */}
+                <div className="public-mobile-actions">
+
+                    <Link
+                        to="/login"
+                        className={`public-login-btn ${
+                            isLogin ? "active" : ""
+                        }`}
+                        onClick={closeMenu}
+                    >
+                        Login
+                    </Link>
+
+                    <Link
+                        to="/register"
+                        className={`public-register-btn ${
+                            isRegister ? "active" : ""
+                        }`}
+                        onClick={closeMenu}
+                    >
+                        Register
+                        <ArrowRight size={16} />
+                    </Link>
+
+                </div>
+
             </nav>
 
-            {/* AUTH BUTTONS */}
+            {/* DESKTOP AUTH BUTTONS */}
             <div className="public-nav-actions">
 
                 <Link

@@ -1,3 +1,7 @@
+/* =========================================
+   PUBLIC NAVBAR
+========================================= */
+
 .public-navbar {
     min-height: 82px;
     width: 100%;
@@ -14,12 +18,17 @@
     box-sizing: border-box;
 }
 
+/* =========================================
+   BRAND
+========================================= */
+
 .public-brand {
     display: flex;
     align-items: center;
     gap: 11px;
     text-decoration: none;
     color: #123047;
+    flex-shrink: 0;
 }
 
 .public-brand-icon {
@@ -42,26 +51,43 @@
     color: #64748b;
 }
 
-.public-nav-links,
-.public-nav-actions {
+/* =========================================
+   DESKTOP NAVIGATION
+========================================= */
+
+.public-nav-links {
     display: flex;
     align-items: center;
     gap: 27px;
 }
 
-.public-nav-links a {
+.public-nav-links > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     color: #425466;
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
-.public-nav-links a:hover {
+.public-nav-links > a svg {
+    display: none;
+}
+
+.public-nav-links > a:hover {
     color: #087f8c;
 }
 
-.public-nav-actions {
+/* =========================================
+   AUTH BUTTONS
+========================================= */
+
+.public-nav-actions,
+.public-mobile-actions {
+    display: flex;
+    align-items: center;
     gap: 11px;
 }
 
@@ -99,46 +125,214 @@
     background: #086b78;
 }
 
+/* =========================================
+   HAMBURGER BUTTON
+========================================= */
+
+.public-menu-toggle {
+    display: none;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d5eeee;
+    border-radius: 11px;
+    background: #e5f7f7;
+    color: #087f8c;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.public-menu-toggle:hover {
+    background: #d6f0ef;
+}
+
+.public-menu-toggle.active {
+    background: #087f8c;
+    color: #ffffff;
+}
+
+/* Hide mobile auth buttons on desktop */
+
+.public-mobile-actions {
+    display: none;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
 @media (max-width: 950px) {
+
     .public-navbar {
         padding: 14px 4%;
+        gap: 15px;
     }
 
     .public-nav-links {
         gap: 14px;
     }
-}
-
-@media (max-width: 700px) {
-    .public-navbar {
-        flex-wrap: wrap;
-        gap: 13px;
-    }
-
-    .public-nav-links {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-        gap: 20px;
-        padding-top: 8px;
-    }
-
-    .public-nav-links a {
-        font-size: 12px;
-    }
-
-    .public-nav-actions {
-        gap: 7px;
-    }
 
     .public-login-btn,
     .public-register-btn {
-        padding: 9px 12px;
-        font-size: 12px;
+        padding: 10px 14px;
     }
 }
 
+/* =========================================
+   MOBILE HAMBURGER MENU
+========================================= */
+
+@media (max-width: 700px) {
+
+    .public-navbar {
+        min-height: 76px;
+        padding: 12px 4%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* BRAND */
+
+    .public-brand {
+        gap: 10px;
+    }
+
+    .public-brand-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .public-brand h2 {
+        font-size: 19px;
+    }
+
+    .public-brand span {
+        font-size: 10px;
+    }
+
+    /* HAMBURGER BUTTON */
+
+    .public-menu-toggle {
+        display: inline-flex;
+        flex-shrink: 0;
+    }
+
+    /* MOBILE NAVIGATION DROPDOWN */
+
+    .public-nav-links {
+        display: none;
+        order: 3;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+        width: 100%;
+        margin-top: 13px;
+        padding: 13px;
+        background: #ffffff;
+        border: 1px solid #e2eeee;
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(15, 40, 60, 0.10);
+        animation: publicMenuSlide 0.22s ease;
+    }
+
+    .public-nav-links.open {
+        display: flex;
+    }
+
+    /* MOBILE LINKS */
+
+    .public-nav-links > a {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        width: 100%;
+        padding: 13px 12px;
+        border-radius: 9px;
+        color: #425466;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .public-nav-links > a svg {
+        display: block;
+        color: #087f8c;
+    }
+
+    .public-nav-links > a:hover,
+    .public-nav-links > a:active {
+        background: #eaf8f7;
+        color: #087f8c;
+    }
+
+    /* MOBILE AUTH BUTTONS */
+
+    .public-nav-actions {
+        display: none;
+    }
+
+    .public-mobile-actions {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        padding-top: 12px;
+        margin-top: 8px;
+        border-top: 1px solid #edf1f4;
+    }
+
+    .public-mobile-actions a {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .public-mobile-actions .public-login-btn,
+    .public-mobile-actions .public-register-btn {
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+}
+
+/* =========================================
+   MENU ANIMATION
+========================================= */
+
+@keyframes publicMenuSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
 @media (max-width: 390px) {
+
+    .public-navbar {
+        padding: 11px 4%;
+    }
+
+    .public-brand {
+        gap: 8px;
+    }
+
+    .public-brand-icon {
+        width: 42px;
+        height: 42px;
+    }
+
     .public-brand h2 {
         font-size: 17px;
     }
@@ -147,7 +341,31 @@
         font-size: 9px;
     }
 
-    .public-nav-links {
-        gap: 13px;
+    .public-menu-toggle {
+        width: 43px;
+        height: 43px;
+    }
+
+    .public-mobile-actions {
+        gap: 7px;
+    }
+
+    .public-mobile-actions a {
+        padding: 11px 7px;
+        font-size: 12px;
+    }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .public-nav-links,
+    .public-nav-links > a,
+    .public-menu-toggle {
+        animation: none;
+        transition: none;
     }
 }
