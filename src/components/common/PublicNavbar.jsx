@@ -11,9 +11,7 @@ import {
 import "./PublicNavbar.css";
 
 function PublicNavbar() {
-
     const location = useLocation();
-
     const [menuOpen, setMenuOpen] = useState(false);
 
     const isLogin = location.pathname === "/login";
@@ -32,7 +30,7 @@ function PublicNavbar() {
 
             {/* BRAND */}
             <Link
-                to="/"
+                to="/#home"
                 className="public-brand"
                 onClick={closeMenu}
             >
@@ -46,7 +44,7 @@ function PublicNavbar() {
                 </div>
             </Link>
 
-            {/* HAMBURGER / CLOSE BUTTON */}
+            {/* MOBILE HAMBURGER / CLOSE BUTTON */}
             <button
                 type="button"
                 className={`public-menu-toggle ${
@@ -68,7 +66,7 @@ function PublicNavbar() {
                 )}
             </button>
 
-            {/* NAVIGATION MENU */}
+            {/* NAVIGATION */}
             <nav
                 id="public-navigation"
                 className={`public-nav-links ${
@@ -76,35 +74,23 @@ function PublicNavbar() {
                 }`}
             >
 
-                <Link
-                    to="/#home"
-                    onClick={closeMenu}
-                >
+                <Link to="/#home" onClick={closeMenu}>
                     Home
                 </Link>
 
-                <Link
-                    to="/#about"
-                    onClick={closeMenu}
-                >
+                <Link to="/#about" onClick={closeMenu}>
                     About
                 </Link>
 
-                <Link
-                    to="/#services"
-                    onClick={closeMenu}
-                >
+                <Link to="/#services" onClick={closeMenu}>
                     Services
                 </Link>
 
-                <Link
-                    to="/#contact"
-                    onClick={closeMenu}
-                >
+                <Link to="/#contact" onClick={closeMenu}>
                     Contact
                 </Link>
 
-                {/* MOBILE LOGIN AND REGISTER */}
+                {/* MOBILE AUTH BUTTONS */}
                 <div className="public-mobile-actions">
 
                     <Link
@@ -132,7 +118,7 @@ function PublicNavbar() {
 
             </nav>
 
-            {/* DESKTOP LOGIN AND REGISTER */}
+            {/* DESKTOP AUTH BUTTONS */}
             <div className="public-nav-actions">
 
                 <Link
